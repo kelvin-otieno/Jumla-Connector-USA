@@ -65,7 +65,7 @@
                     "id": "TaskPaneRuntime",
                     "type": "general",
                     "code": {
-                        "page": "https://localhost:3000/taskpane.html"
+                        "page": "https://kelvin-otieno.github.io/Jumla-Connector-USA/src/taskpane/taskpane2.html"
                     },
                     "lifetime": "short",
                     "actions": [
@@ -81,8 +81,8 @@
                     "id": "CommandsRuntime",
                     "type": "general",
                     "code": {
-                        "page": "https://localhost:3000/commands.html",
-                        "script": "https://localhost:3000/commands.js"
+                        "page": "https://kelvin-otieno.github.io/Jumla-Connector-USA/src/commands/commands.html",
+                        "script": "https://kelvin-otieno.github.io/Jumla-Connector-USA/src/commands/commands.js"
                     },
                     "lifetime": "short",
                     "actions": [
@@ -108,38 +108,38 @@
                                     "icons": [
                                         {
                                             "size": 16,
-                                            "url": "https://localhost:3000/assets/icon-16.png"
+                                            "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-16.png"
                                         },
                                         {
                                             "size": 32,
-                                            "url": "https://localhost:3000/assets/icon-32.png"
+                                            "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-32.png"
                                         },
                                         {
                                             "size": 80,
-                                            "url": "https://localhost:3000/assets/icon-80.png"
+                                            "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-80.png"
                                         }
                                     ],
                                     "controls": [
                                         {
                                             "id": "msgReadOpenPaneButton",
                                             "type": "button",
-                                            "label": "Show Task Pane",
+                                            "label": "Show Jumla Connector",
                                             "icons": [
                                                 {
                                                     "size": 16,
-                                                    "url": "https://localhost:3000/assets/icon-16.png"
+                                                    "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-16.png"
                                                 },
                                                 {
                                                     "size": 32,
-                                                    "url": "https://localhost:3000/assets/icon-32.png"
+                                                    "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-32.png"
                                                 },
                                                 {
                                                     "size": 80,
-                                                    "url": "https://localhost:3000/assets/icon-80.png"
+                                                    "url": "https://kelvin-otieno.github.io/Jumla-Connector-USA/assets/icon-80.png"
                                                 }
                                             ],
                                             "supertip": {
-                                                "title": "Show Task Pane",
+                                                "title": "Show Jumla Connector",
                                                 "description": "Opens a pane displaying all available properties."
                                             },
                                             "actionId": "TaskPaneRuntimeShow"

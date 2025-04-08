@@ -65,7 +65,7 @@
         };
   
         fetch(
-          "https://prod-01.westeurope.logic.azure.com:443/workflows/a1a72d0bb7d9448f8da9f95bfa768fd6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=e8aJNn3Z_9bETEKw71wB8cBnXhWlM67Dn2k4hFiMKrg",
+          "https://prod-60.westeurope.logic.azure.com:443/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1nlpUWi5lOdE2k9iFTx7-FTdgQooyPvmYgybyiAqNs0",
           requestOptions
         )
           .then((response) => {
