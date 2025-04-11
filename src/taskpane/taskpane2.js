@@ -44,6 +44,7 @@
     const cc = item.cc;
     const subject = item.subject;
     const trackingid = item.conversationId;
+    const dateTimeCreated = item.dateTimeCreated;
     item.body.getAsync("html", function (result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         // Successfully retrieved the email body
@@ -55,6 +56,7 @@
           description: result.value,
           useremailaddress: userEmailAddress,
           trackingid: trackingid,
+          dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
         });
   
         const requestOptions = {
