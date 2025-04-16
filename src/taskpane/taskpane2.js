@@ -21,14 +21,14 @@ function loadControls() {
     const dateTimeCreated = item.dateTimeCreated;
     const dateField = document.getElementById("mailtime");
     //const utcDateString = "2025-04-15T12:00:00Z"; // UTC time
-    const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
-    console.log(utcDateString);
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's current time zone
-    const localTime = convertUTCToLocalTime(utcDateString, timeZone);
+    //const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
+    //console.log(utcDateString);
+    //const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's current time zone
+    //const localTime = convertUTCToLocalTime(utcDateString, timeZone);
   
-    const dt = new Date(localTime);
+    //const dt = new Date(localTime);
   
-    const formatteddate = formatDateToISO(dt);
+    const formatteddate = formatDateToISO(dateTimeCreated);
   
     dateField.value = formatteddate;
     }
