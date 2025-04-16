@@ -14,9 +14,9 @@
 //   });
   
 function loadControls() {
-  document.addEventListener("DOMContentLoaded", function() {
-    console.log("HTML is fully loaded and parsed!");
-    // Your code here
+  Office.onReady((info) => {
+    if (info.host === Office.HostType.Outlook) {
+          // Your code here
     const item = Office.context.mailbox.item;
     const dateTimeCreated = item.dateTimeCreated;
     const dateField = document.getElementById("mailtime");
@@ -31,8 +31,8 @@ function loadControls() {
     const formatteddate = formatDateToISO(dt);
   
     dateField.value = formatteddate;
+    }
   });
-  
 
 }
 
