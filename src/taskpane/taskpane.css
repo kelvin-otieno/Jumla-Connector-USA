@@ -93,3 +93,14 @@ button{
     background-color: #a82039; /* Green */
     color: white;
   }
+
+  input{
+    padding: 10px 20px;
+    font-size: large;
+    border-style: none;
+    background-color: #f3f2f1;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

@@ -13,6 +13,23 @@
 //     }
 //   });
   
+function loadControls() {
+  const item = Office.context.mailbox.item;
+  const dateTimeCreated = item.dateTimeCreated;
+  const dateField = document.getElementById("mailtime");
+  //const utcDateString = "2025-04-15T12:00:00Z"; // UTC time
+  const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
+  console.log(utcDateString);
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's current time zone
+  const localTime = convertUTCToLocalTime(utcDateString, timeZone);
+
+  const dt = new Date(localTime);
+
+  const formatteddate = formatDateToISO(dt);
+
+  dateField.value = formatteddate;
+}
+
  async function run() {
     /**
      * Insert your Outlook code here
@@ -37,6 +54,7 @@
     // insertAt.appendChild(document.createTextNode(item.conversationId));
   
     console.log(item);
+    const dateField = document.getElementById("mailtime");
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const from = item.from;
@@ -45,6 +63,8 @@
     const subject = item.subject;
     const trackingid = item.conversationId;
     const dateTimeCreated = item.dateTimeCreated;
+    const dateTimeCreatedUTC = convertLocalToUTC(dateField.value);
+    console.log("dateTimeCreatedUTC: ", dateTimeCreatedUTC);
     item.body.getAsync("html", function (result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
         // Successfully retrieved the email body
@@ -56,7 +76,8 @@
           description: result.value,
           useremailaddress: userEmailAddress,
           trackingid: trackingid,
-          dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
+          //dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
+          dateTimeCreated: dateTimeCreatedUTC
         });
   
         const requestOptions = {
@@ -109,3 +130,29 @@
     console.log("Item: ", item);
   }
   
+  function convertUTCToLocalTime(utcDateString, timeZone) {
+    const utcDate = new Date(utcDateString);
+    const localDate = utcDate.toLocaleString("en-US", { timeZone: timeZone });
+    return localDate;
+  }
+  
+  function formatDateToISO(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  function convertLocalToUTC(date) {
+    const utcYear = date.getUTCFullYear();
+    const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const utcDay = String(date.getUTCDate()).padStart(2, '0');
+    const utcHours = String(date.getUTCHours()).padStart(2, '0');
+    const utcMinutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const utcSeconds = String(date.getUTCSeconds()).padStart(2, '0');
+  
+    return `${utcYear}-${utcMonth}-${utcDay}T${utcHours}:${utcMinutes}:${utcSeconds}`;
+  }

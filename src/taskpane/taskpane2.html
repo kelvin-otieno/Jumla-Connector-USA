@@ -21,7 +21,7 @@
     <link href="taskpane.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body class="ms-font-m ms-welcome ms-Fabric">
+<body class="ms-font-m ms-welcome ms-Fabric" onload="loadControls()">
     <header class="ms-welcome__header ms-bgColor-neutralLighter">
         <img width="152" height="90" src="../../assets/amreflogo.png" alt="Amref Health Africa" title="Amref Health Africa" />
         <h1 class="ms-font-su">Welcome</h1>
@@ -49,6 +49,8 @@
         <!-- <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
             <span class="ms-Button-label">Create Email In Jumla</span>
         </div> -->
+        <!-- <label for="mailtime">Birthday (date and time):</label> -->
+        <input type="datetime-local" id="mailtime" name="mailtime">
         <button type="button" onclick="run()" id="run">Track in Jumla</button>
         <p><label id="item-subject"></label></p>
     </main>
