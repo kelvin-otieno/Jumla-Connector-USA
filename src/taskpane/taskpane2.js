@@ -153,7 +153,7 @@ function loadControls() {
   }
 
   function convertLocalToUTC(localdate) {
-    const convlocaldate = new Date(localdate);
+    const date = new Date(localdate);
     const utcYear = date.getUTCFullYear();
     const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const utcDay = String(date.getUTCDate()).padStart(2, '0');
