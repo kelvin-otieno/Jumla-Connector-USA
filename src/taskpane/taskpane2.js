@@ -14,20 +14,26 @@
 //   });
   
 function loadControls() {
-  const item = Office.context.mailbox.item;
-  const dateTimeCreated = item.dateTimeCreated;
-  const dateField = document.getElementById("mailtime");
-  //const utcDateString = "2025-04-15T12:00:00Z"; // UTC time
-  const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
-  console.log(utcDateString);
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's current time zone
-  const localTime = convertUTCToLocalTime(utcDateString, timeZone);
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("HTML is fully loaded and parsed!");
+    // Your code here
+    const item = Office.context.mailbox.item;
+    const dateTimeCreated = item.dateTimeCreated;
+    const dateField = document.getElementById("mailtime");
+    //const utcDateString = "2025-04-15T12:00:00Z"; // UTC time
+    const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
+    console.log(utcDateString);
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's current time zone
+    const localTime = convertUTCToLocalTime(utcDateString, timeZone);
+  
+    const dt = new Date(localTime);
+  
+    const formatteddate = formatDateToISO(dt);
+  
+    dateField.value = formatteddate;
+  });
+  
 
-  const dt = new Date(localTime);
-
-  const formatteddate = formatDateToISO(dt);
-
-  dateField.value = formatteddate;
 }
 
  async function run() {
@@ -146,7 +152,8 @@ function loadControls() {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
-  function convertLocalToUTC(date) {
+  function convertLocalToUTC(localdate) {
+    const convlocaldate = new Date(localdate);
     const utcYear = date.getUTCFullYear();
     const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const utcDay = String(date.getUTCDate()).padStart(2, '0');
