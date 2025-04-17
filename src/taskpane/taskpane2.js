@@ -20,6 +20,7 @@ function loadControls() {
     const item = Office.context.mailbox.item;
     const dateTimeCreated = item.dateTimeCreated;
     const dateField = document.getElementById("mailtime");
+    console.log("message type is " + Office.context.mailbox.item.messageType + " and item type is " + Office.context.mailbox.item.itemType);
     //const utcDateString = "2025-04-15T12:00:00Z"; // UTC time
     //const utcDateString = dateTimeCreated.format("YYYY-MM-DDTHH:mm:ssZ"); // UTC time
     //console.log(utcDateString);
