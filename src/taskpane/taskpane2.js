@@ -154,7 +154,8 @@ function loadMissingEmails() {
           useremailaddress: userEmailAddress,
           trackingid: trackingid,
           //dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
-          dateTimeCreated: dateTimeCreatedUTC
+          dateTimeCreated: dateTimeCreatedUTC,
+          regarding: regardingItem
         });
   
         const requestOptions = {
