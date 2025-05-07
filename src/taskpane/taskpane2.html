@@ -50,9 +50,14 @@
             <span class="ms-Button-label">Create Email In Jumla</span>
         </div> -->
         <!-- <label for="mailtime">Birthday (date and time):</label> -->
+        <input type="text" id="searchBox" name="search" placeholder="Search for regarding partner or opportunity.." autocomplete="off" onkeyup="clearSuggestions(this.value)" />
+        <p id="searchText">Searching....</p>
+        <div id="suggestions"></div>
         <input type="datetime-local" id="mailtime" name="mailtime">
         <button type="button" onclick="run()" id="run">Track in Jumla</button>
         <p><label id="item-subject"></label></p>
+        <p id="missingemailstitle">Below emails are missing in Jumla:</p>
+        <p id="missingemailstext"></p>
     </main>
 </body>
 

@@ -94,13 +94,62 @@ button{
     color: white;
   }
 
-  input{
+  #mailtime{
     padding: 10px 20px;
-    font-size: large;
+    font-size: 16px;
     border-style: none;
     background-color: #f3f2f1;
     cursor: pointer;
     transition-duration: 0.4s;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+#searchBox {
+    width: 30%;
+    box-sizing: border-box;
+    /* border: 2px solid #f5f4f2;
+    border-radius: 4px; */
+    border-style: none;
+    font-size: 16px;
+    background-color: #f3f2f1;
+    background-image: url('../../assets/search.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    margin-top: 30px;
+    /* margin-bottom: 30px; */
+  }
+
+  #searchText{
+    color: #909090;
+    margin-top: 5px;
+    display: none;
+    margin-bottom: 0px;
+  }
+
+  #suggestions {
+    position: relative;
+    width: 30%;
+    background: white;
+    border: 1px solid #ccc;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+#missingemailstitle{
+    color:red;
+    display: none;
+}
+
+#missingemailstext{
+    color:green;
 }
