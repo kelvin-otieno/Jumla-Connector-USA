@@ -106,7 +106,7 @@ button{
 }
 
 #searchBox {
-    width: 30%;
+    width: 100%;
     box-sizing: border-box;
     /* border: 2px solid #f5f4f2;
     border-radius: 4px; */

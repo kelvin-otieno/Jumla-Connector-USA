@@ -90,7 +90,7 @@ function loadMissingEmails() {
       };
 
       fetch(
-        searchmissingemailsapi,
+        "https://prod-73.westeurope.logic.azure.com:443/workflows/37d8b1ec35454bfcbc5ca129c06823af/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jUMDas16sL2BarEnMn4WOkP-MayqLNpJY5_-skRw1tQ",
         requestOptions
       )
       .then((response) => response.json())
@@ -165,7 +165,7 @@ function loadMissingEmails() {
         };
   
         fetch(
-          createemailapi,
+          "https://prod-60.westeurope.logic.azure.com:443/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1nlpUWi5lOdE2k9iFTx7-FTdgQooyPvmYgybyiAqNs0",
           requestOptions
         )
           .then((response) => {
@@ -301,7 +301,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch(searchregardingapi, requestOptions)
+fetch("https://prod-150.westeurope.logic.azure.com:443/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GqpQnsIgYp_2hL1bz2S9EpUpxr60qQyfQSdttetQQLI", requestOptions)
   .then((response) => response.json())
   .then((result) => {
     searchText.style.display = "none";
