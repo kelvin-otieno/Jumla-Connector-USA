@@ -130,7 +130,7 @@ button{
 
   #suggestions {
     position: relative;
-    width: 30%;
+    width: 100%;
     background: white;
     border: 1px solid #ccc;
     display: none;

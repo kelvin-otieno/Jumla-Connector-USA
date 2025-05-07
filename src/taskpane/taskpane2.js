@@ -17,6 +17,7 @@ const { create } = require("core-js/core/object");
 
 var regardingItem = null;
 
+
 ////////////STAGING/////////////////////////////////
 // const createemailapi = "https://prod-200.westeurope.logic.azure.com:443/workflows/7fc3dd1d8348461bb773102354791678/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=9Wd5IGNofy0lJFr1u0YKqPtifAVjI5d1UxyFGQv14kk";
 // const searchregardingapi = "https://prod-81.westeurope.logic.azure.com:443/workflows/1ddbbdd778ee4104991266039f724f4a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=9jnkdoeMtPv6_ficU6q2RKTxLymJQxnGDGozYUDfZpg";
@@ -66,7 +67,6 @@ function loadControls() {
 function loadMissingEmails() {
   Office.onReady((info) => {
     if (info.host === Office.HostType.Outlook) {
-      document.getElementById("run").innerHTML = "Tracking.....";
       const item = Office.context.mailbox.item;
           
       const missingemailstext = document.getElementById("missingemailstext");
@@ -235,35 +235,6 @@ function loadMissingEmails() {
     return `${utcYear}-${utcMonth}-${utcDay}T${utcHours}:${utcMinutes}:${utcSeconds}`;
   }
 
-  // const suggestionsList = ["Apple","Almond","Asbestos", "Banana", "Cherry", "Date", "Grapes", "Mango", "Orange", "Pineapple", "Strawberry"];
-  const suggestionsList = [];
-
-function showSuggestions(value) {
-    const suggestionsDiv = document.getElementById("suggestions");
-    suggestionsDiv.innerHTML = "";
-    if (value.length === 0) {
-        suggestionsDiv.style.display = "none";
-        return;
-    }
-    
-    const filteredSuggestions = suggestionsList.filter(item => item.toLowerCase().startsWith(value.toLowerCase()));
-    
-    if (filteredSuggestions.length > 0) {
-        suggestionsDiv.style.display = "block";
-        filteredSuggestions.forEach(suggestion => {
-            const div = document.createElement("div");
-            div.classList.add("suggestion-item");
-            div.innerText = suggestion;
-            div.onclick = () => {
-                document.getElementById("searchBox").value = suggestion;
-                suggestionsDiv.style.display = "none";
-            };
-            suggestionsDiv.appendChild(div);
-        });
-    } else {
-        suggestionsDiv.style.display = "none";
-    }
-}
 
 function clearSuggestions(value) {
   const suggestionsDiv = document.getElementById("suggestions");
@@ -277,6 +248,7 @@ function clearSuggestions(value) {
 }
 
 function showSuggestionsOnEnter(value) {
+  let suggestionsList = [];
   const suggestionsDiv = document.getElementById("suggestions");
   const searchText = document.getElementById("searchText");
   searchText.style.display = "block";
