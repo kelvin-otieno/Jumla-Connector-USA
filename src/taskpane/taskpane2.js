@@ -16,6 +16,7 @@ const { create } = require("core-js/core/object");
 //   });
 
 var regardingItem = null;
+var regardingItemOpp = null;
 
 
 ////////////STAGING/////////////////////////////////
@@ -27,6 +28,7 @@ var regardingItem = null;
 const createemailapi = "https://prod-60.westeurope.logic.azure.com:443/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1nlpUWi5lOdE2k9iFTx7-FTdgQooyPvmYgybyiAqNs0";
 const searchregardingapi = "https://prod-150.westeurope.logic.azure.com:443/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GqpQnsIgYp_2hL1bz2S9EpUpxr60qQyfQSdttetQQLI";
 const searchmissingemailsapi = "https://prod-73.westeurope.logic.azure.com:443/workflows/37d8b1ec35454bfcbc5ca129c06823af/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jUMDas16sL2BarEnMn4WOkP-MayqLNpJY5_-skRw1tQ";
+const searchregardingopportunityapi = "https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZfjSwVujEezSAy-sQG5prkzPyXR_d_G9g-mE53Jd4_4";
   
 function loadControls() {
   loadMissingEmails();
@@ -35,6 +37,13 @@ function loadControls() {
         event.preventDefault(); // Prevent default form submission
         const value = event.target.value;
         showSuggestionsOnEnter(value); // Call the function
+    }
+  });
+  document.getElementById("searchBoxOpp").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        const value = event.target.value;
+        showOpportunitySuggestionsOnEnter(value); // Call the function
     }
   });
   Office.onReady((info) => {
@@ -155,7 +164,8 @@ function loadMissingEmails() {
           trackingid: trackingid,
           //dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
           dateTimeCreated: dateTimeCreatedUTC,
-          regarding: regardingItem
+          regarding: regardingItem,
+          regardingopp: regardingItemOpp
         });
   
         const requestOptions = {
@@ -248,6 +258,17 @@ function clearSuggestions(value) {
   }
 }
 
+function clearSuggestionsOpp(value) {
+  const suggestionsDiv = document.getElementById("suggestionsopp");
+  suggestionsDiv.innerHTML = "";
+  suggestionsDiv.style.display = "none";
+  if (value.length === 0) {
+      // suggestionsDiv.style.display = "none";
+      regardingItemOpp = null;
+      console.log("regardingItemOpp: ", regardingItemOpp);
+  }
+}
+
 function showSuggestionsOnEnter(value) {
   let suggestionsList = [];
   const suggestionsDiv = document.getElementById("suggestions");
@@ -318,4 +339,74 @@ fetch("https://prod-150.westeurope.logic.azure.com:443/workflows/fb5e125f2eb640b
 
 }
 
+
+function showOpportunitySuggestionsOnEnter(value) {
+  let suggestionsList = [];
+  const suggestionsDiv = document.getElementById("suggestionsopp");
+  const searchText = document.getElementById("searchTextOpp");
+  searchText.style.display = "block";
+  //show loading animation
+  // const divload = document.createElement("div");
+  // divload.classList.add("suggestion-item");
+  // divload.innerText = "searching...";
+  // suggestionsDiv.appendChild(divload);
+  // suggestionsDiv.style.display = "block";
+
+  const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+const raw = JSON.stringify({
+  "input": value
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZfjSwVujEezSAy-sQG5prkzPyXR_d_G9g-mE53Jd4_4", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    searchText.style.display = "none";
+    
+    suggestionsDiv.innerHTML = "";
+    if (result.length === 0) {
+        suggestionsDiv.style.display = "none";
+        return;
+    }
+    else{
+        suggestionsList.length = 0; // Clear the array
+        result.forEach(item => {
+            suggestionsList.push(item);
+        });
+    }
+    
+    // const filteredSuggestions = suggestionsList.filter(item => item.toLowerCase().startsWith(value.toLowerCase()));
+    const filteredSuggestions = suggestionsList;
+    
+    if (filteredSuggestions.length > 0) {
+        suggestionsDiv.style.display = "block";
+        filteredSuggestions.forEach(suggestion => {
+            const div = document.createElement("div");
+            div.classList.add("suggestion-itemopp");
+            div.innerText = suggestion.name + " (" + suggestion.recordtype + ")";
+            div.onclick = () => {
+                document.getElementById("searchBoxOpp").value = suggestion.name + " (" + suggestion.recordtype + ")";
+                regardingItemOpp = suggestion;
+                suggestionsDiv.style.display = "none";
+                console.log("regardingItemOpp: ", regardingItemOpp);
+            };
+            suggestionsDiv.appendChild(div);
+        });
+    } else {
+        suggestionsDiv.style.display = "none";
+    }
+
+  })
+  .catch((error) => console.error(error));
+
+
+}
 

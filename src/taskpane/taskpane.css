@@ -103,9 +103,11 @@ button{
     transition-duration: 0.4s;
     margin-top: 30px;
     margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#searchBox {
+#searchBox,#searchBoxOpp {
     width: 100%;
     box-sizing: border-box;
     /* border: 2px solid #f5f4f2;
@@ -121,14 +123,14 @@ button{
     /* margin-bottom: 30px; */
   }
 
-  #searchText{
+  #searchText,#searchTextOpp{
     color: #909090;
     margin-top: 5px;
     display: none;
     margin-bottom: 0px;
   }
 
-  #suggestions {
+  #suggestions,#suggestionsopp {
     position: relative;
     width: 100%;
     background: white;
@@ -136,12 +138,12 @@ button{
     display: none;
 }
 
-.suggestion-item {
+.suggestion-item,.suggestion-itemopp {
     padding: 10px;
     cursor: pointer;
 }
 
-.suggestion-item:hover {
+.suggestion-item:hover,.suggestion-itemopp:hover {
     background: #f0f0f0;
 }
 
