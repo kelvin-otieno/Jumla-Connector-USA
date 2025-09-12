@@ -31,7 +31,7 @@ const searchmissingemailsapi = "https://prod-73.westeurope.logic.azure.com:443/w
 const searchregardingopportunityapi = "https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZfjSwVujEezSAy-sQG5prkzPyXR_d_G9g-mE53Jd4_4";
   
 async function loadControls() {
-  await getAttachmentsAsync();
+  //await getAttachmentsAsync();
   loadMissingEmails();
   document.getElementById("searchBox").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
