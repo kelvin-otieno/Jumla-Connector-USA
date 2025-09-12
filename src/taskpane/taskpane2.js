@@ -30,7 +30,8 @@ const searchregardingapi = "https://prod-150.westeurope.logic.azure.com:443/work
 const searchmissingemailsapi = "https://prod-73.westeurope.logic.azure.com:443/workflows/37d8b1ec35454bfcbc5ca129c06823af/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jUMDas16sL2BarEnMn4WOkP-MayqLNpJY5_-skRw1tQ";
 const searchregardingopportunityapi = "https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZfjSwVujEezSAy-sQG5prkzPyXR_d_G9g-mE53Jd4_4";
   
-function loadControls() {
+async function loadControls() {
+  await getAttachmentsAsync();
   loadMissingEmails();
   document.getElementById("searchBox").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
@@ -71,6 +72,33 @@ function loadControls() {
 
 
 
+}
+
+async function getAttachmentsAsync() {
+  try {
+    const attachments = Office.context.mailbox.item.attachments;
+    console.log("Attachments: ");
+    console.log(attachments);
+
+    attachments.forEach(att => {
+      console.log(att.id, att.name);
+      Office.context.mailbox.item.getAttachmentContentAsync(
+        att.id,
+        { asyncContext: null },
+        function (result) {
+          if (result.status === Office.AsyncResultStatus.Succeeded) {
+            const content = result.value.content;
+            const format = result.value.format; // e.g., Base64
+            console.log("Attachment content:", content);
+          } else {
+            console.error("Failed to get attachment content:", result.error.message);
+          }
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Error retrieving attachments: ", error);
+  }
 }
 
 function loadMissingEmails() {
@@ -150,6 +178,9 @@ function loadMissingEmails() {
     const trackingid = item.conversationId;
     const dateTimeCreated = item.dateTimeCreated;
     const dateTimeCreatedUTC = convertLocalToUTC(dateField.value);
+
+
+
     console.log("dateTimeCreatedUTC: ", dateTimeCreatedUTC);
     item.body.getAsync("html", function (result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
@@ -409,4 +440,3 @@ fetch("https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319
 
 
 }
-
