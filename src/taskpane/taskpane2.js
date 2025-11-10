@@ -3,7 +3,7 @@
  * See LICENSE in the project root for license information.
  */
 
-const { create } = require("core-js/core/object");
+//const { create } = require("core-js/core/object");
 
 /* global document, Office */
 
@@ -25,10 +25,10 @@ var regardingItemOpp = null;
 // const searchmissingemailsapi = "https://prod-80.westeurope.logic.azure.com:443/workflows/45dcfb9f75d04f1a8ad03f2996ff94e8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hPy8mfFdYQI_hVDNpJ_DH-vfWj1gygrXTAPWQaiF9U8";
 
 ////////////LIVE/////////////////////////////////
-const createemailapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FSyhr-Ow7020W530ouX_9abfO8ry8Et-weh4zQ9BYVI";
-const searchregardingapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jlKc10_1MiM6CbGEbhF8xXITW2FVvbwzfAAF7ysaWzI";
+let createemailapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FSyhr-Ow7020W530ouX_9abfO8ry8Et-weh4zQ9BYVI";
+let searchregardingapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jlKc10_1MiM6CbGEbhF8xXITW2FVvbwzfAAF7ysaWzI";
 let searchmissingemailsapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/37d8b1ec35454bfcbc5ca129c06823af/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NFWR8XqT7yAhqtafw7rNmyYxqi6kLHwZlMHc3ybXNQ8";
-const searchregardingopportunityapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-GhiiynMNUh0i_hKRXTGjSUsWJ6htoucfnBYN4rlLPQ";
+let searchregardingopportunityapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-GhiiynMNUh0i_hKRXTGjSUsWJ6htoucfnBYN4rlLPQ";
   
 async function loadControls() {
   loadMissingEmails();
@@ -103,6 +103,7 @@ async function getAttachmentsAsync() {
 function loadMissingEmails() {
   Office.onReady((info) => {
     if (info.host === Office.HostType.Outlook) {
+      searchmissingemailsapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/37d8b1ec35454bfcbc5ca129c06823af/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NFWR8XqT7yAhqtafw7rNmyYxqi6kLHwZlMHc3ybXNQ8";
       const item = Office.context.mailbox.item;
           
       const missingemailstext = document.getElementById("missingemailstext");
@@ -141,6 +142,11 @@ function loadMissingEmails() {
       .finally(() => {
           const searchmissingemailstitle = document.getElementById("searchmissingemailstitle");
           searchmissingemailstitle.style.display = "none";
+
+          const trackbutton = document.getElementById("run");
+          trackbutton.style.cursor = "pointer";
+          trackbutton.style.pointerEvents = "auto";
+          trackbutton.style.opacity = "1.0";
       });
 
     }
@@ -181,6 +187,7 @@ function loadMissingEmails() {
     const trackingid = item.conversationId;
     const dateTimeCreated = item.dateTimeCreated;
     const dateTimeCreatedUTC = convertLocalToUTC(dateField.value);
+    createemailapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FSyhr-Ow7020W530ouX_9abfO8ry8Et-weh4zQ9BYVI";
 
 
 
@@ -210,7 +217,7 @@ function loadMissingEmails() {
         };
   
         fetch(
-          "https://prod-60.westeurope.logic.azure.com:443/workflows/d176927b3cac453e8f3c41b812655c7e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1nlpUWi5lOdE2k9iFTx7-FTdgQooyPvmYgybyiAqNs0",
+          createemailapi,
           requestOptions
         )
           .then((response) => {
@@ -315,6 +322,8 @@ function showSuggestionsOnEnter(value) {
   // suggestionsDiv.appendChild(divload);
   // suggestionsDiv.style.display = "block";
 
+  searchregardingapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jlKc10_1MiM6CbGEbhF8xXITW2FVvbwzfAAF7ysaWzI";
+
   const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
@@ -329,7 +338,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://prod-150.westeurope.logic.azure.com:443/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=GqpQnsIgYp_2hL1bz2S9EpUpxr60qQyfQSdttetQQLI", requestOptions)
+fetch(searchregardingapi, requestOptions)
   .then((response) => response.json())
   .then((result) => {
     searchText.style.display = "none";
@@ -379,6 +388,7 @@ function showOpportunitySuggestionsOnEnter(value) {
   const suggestionsDiv = document.getElementById("suggestionsopp");
   const searchText = document.getElementById("searchTextOpp");
   searchText.style.display = "block";
+  searchregardingopportunityapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=-GhiiynMNUh0i_hKRXTGjSUsWJ6htoucfnBYN4rlLPQ"
   //show loading animation
   // const divload = document.createElement("div");
   // divload.classList.add("suggestion-item");
@@ -400,7 +410,7 @@ const requestOptions = {
   redirect: "follow"
 };
 
-fetch("https://prod-79.westeurope.logic.azure.com:443/workflows/7a6430c055e84319a1c69ae510f6bc0f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=ZfjSwVujEezSAy-sQG5prkzPyXR_d_G9g-mE53Jd4_4", requestOptions)
+fetch(searchregardingopportunityapi, requestOptions)
   .then((response) => response.json())
   .then((result) => {
     searchText.style.display = "none";
