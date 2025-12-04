@@ -194,6 +194,13 @@ function loadMissingEmails() {
     console.log("dateTimeCreatedUTC: ", dateTimeCreatedUTC);
     item.body.getAsync("html", function (result) {
       if (result.status === Office.AsyncResultStatus.Succeeded) {
+        if (regardingItem == null) {
+          regardingItem = {};
+        }
+
+        if (regardingItemOpp == null) {
+          regardingItemOpp = {};
+        }
         // Successfully retrieved the email body
         const raw = JSON.stringify({
           from: from,
