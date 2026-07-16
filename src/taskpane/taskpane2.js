@@ -32,13 +32,19 @@ let searchregardingopportunityapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.e
   
 async function loadControls() {
   loadMissingEmails();
+
+
   document.getElementById("searchBox").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         event.preventDefault(); // Prevent default form submission
         const value = event.target.value;
-        showSuggestionsOnEnter(value); // Call the function
+       //showSuggestionsOnEnter(value); // Call the function
+        
+        filterOptions(event); // Call the function
     }
   });
+
+
   document.getElementById("searchBoxOpp").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         event.preventDefault(); // Prevent default form submission
@@ -68,6 +74,11 @@ async function loadControls() {
     dateField.value = formatteddate;
     }
   });
+
+document.querySelectorAll("#suggestions input[type='checkbox']")
+    .forEach(cb => {
+        cb.addEventListener("change", updateSelectedText);
+    });
 
 
 
@@ -212,7 +223,7 @@ function loadMissingEmails() {
           trackingid: trackingid,
           //dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
           dateTimeCreated: dateTimeCreatedUTC,
-          regarding: regardingItem,
+          regarding: selectedRegarding,
           regardingopp: regardingItemOpp
         });
 
@@ -326,21 +337,15 @@ function showSuggestionsOnEnter(value) {
   const suggestionsDiv = document.getElementById("suggestions");
   const searchText = document.getElementById("searchText");
   searchText.style.display = "block";
-  //show loading animation
-  // const divload = document.createElement("div");
-  // divload.classList.add("suggestion-item");
-  // divload.innerText = "searching...";
-  // suggestionsDiv.appendChild(divload);
-  // suggestionsDiv.style.display = "block";
 
   searchregardingapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jlKc10_1MiM6CbGEbhF8xXITW2FVvbwzfAAF7ysaWzI";
 
   const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
-const raw = JSON.stringify({
-  "input": value
-});
+  const raw = JSON.stringify({
+    "input": value
+  });
 
 const requestOptions = {
   method: "POST",
@@ -463,4 +468,254 @@ fetch(searchregardingopportunityapi, requestOptions)
   .catch((error) => console.error(error));
 
 
+}
+
+
+//START OF MULTISELECT DROPDOWN CODE
+
+        const items = [
+
+"Mid-Level Donor",
+"Mid-Level Donor TT",
+"Event Mid-Level Donor",
+"Staff",
+"Trustee",
+"Volunteer",
+"Corporate Partner",
+"Sponsor",
+"Major Donor",
+"Foundation",
+"Government",
+"Board Member",
+"Student",
+"Alumni",
+"Employee"
+
+];
+
+const selected = [];
+var selectedRegarding = [];
+
+var optionList = document.getElementById("optionList");
+const selectedTags = document.getElementById("selectedTags");
+const itemCount = document.getElementById("itemCount");
+
+itemCount.innerHTML =  + "0 records";
+
+function renderOptions(filter="",event){
+  //toggleDropdown(event);
+let suggestionsList = [];
+   const searchText = document.getElementById("searchText");
+  searchText.style.display = "block";
+
+  searchregardingapi = "https://a26068ef5a2445e0ad4ddab310c157.f9.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/fb5e125f2eb640bf8aba86b15b9aeb03/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jlKc10_1MiM6CbGEbhF8xXITW2FVvbwzfAAF7ysaWzI";
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "input": filter
+    });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+
+  fetch(searchregardingapi, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      searchText.style.display = "none";
+      
+      //suggestionsDiv.innerHTML = "";
+      if (result.length === 0) {
+          return;
+      }
+      else{
+          suggestionsList.length = 0; // Clear the array
+          result.forEach(item => {
+              suggestionsList.push(item);
+          });
+      }
+
+      itemCount.innerHTML = result.length + " records";
+      
+      // const filteredSuggestions = suggestionsList.filter(item => item.toLowerCase().startsWith(value.toLowerCase()));
+      const filteredSuggestions = suggestionsList;
+    
+
+    optionList.innerHTML="";
+    
+    filteredSuggestions.sort().forEach(item=>{
+
+        const label=document.createElement("label");
+        const stringitem = JSON.stringify(item);
+        label.className="option";
+
+        label.innerHTML=`
+
+        <div>
+
+            <input type="checkbox"
+                ${selected.includes(item.name)?"checked":""}
+                onchange="toggleItem('${item.name}', '${item.recordid}', '${item.recordtype}')">
+
+            ${item.name} (${item.recordtype})
+
+        </div>
+
+        `;
+
+        optionList.appendChild(label);
+
+    });
+
+    toggleDropdown(event);
+
+    // filteredSuggestions
+    // .filter(x=>x.toLowerCase().includes(filter.toLowerCase()))
+    // .forEach(item=>{
+
+    //     const label=document.createElement("label");
+    //     label.className="option";
+
+    //     label.innerHTML=`
+
+    //     <div>
+
+    //         <input type="checkbox"
+    //             ${selected.includes(item)?"checked":""}
+    //             onchange="toggleItem('${item}')">
+
+    //         ${item}
+
+    //     </div>
+
+    //     `;
+
+    //     optionList.appendChild(label);
+
+    // });
+
+})}
+
+//renderOptions();
+
+function toggleDropdown(e){
+
+    // e.stopPropagation();
+
+    const d=document.getElementById("dropdown");
+
+    d.style.display=
+    d.style.display==="block"
+    ?"none"
+    :"block";
+}
+
+document.addEventListener("click",()=>{
+
+document.getElementById("dropdown").style.display="none";
+
+});
+
+function toggleItem(name,recordid,recordtype){
+   var item = { name: name, recordid: recordid, recordtype: recordtype };
+    const index=selected.indexOf(name);
+
+    if(index>-1)
+    {
+      selected.splice(index,1);
+    }
+    else{
+      selected.push(item);
+      selectedRegarding.push(item);
+      console.log(selectedRegarding);
+    }
+
+    renderTags();
+   // renderOptions(document.getElementById("searchBox").value);
+}
+
+function renderTags(){
+
+    selectedTags.innerHTML="";
+
+    selected.forEach(item=>{
+
+        const div=document.createElement("div");
+
+        div.className="tag";
+        div.recordId = item.recordid;
+        div.recordType = item.recordtype;
+
+        div.innerHTML=`
+        ${item.name}
+        <span onclick="removeTag(event,'${item.name}', '${item.recordid}', '${item.recordtype}')">&times;</span>
+        `;
+
+        selectedTags.appendChild(div);
+
+    });
+
+}
+
+function removeTag(e,item,recordid,recordtype){
+
+  var selectedItem = { name: item, recordid: recordid, recordtype: recordtype };
+
+    e.stopPropagation();
+
+    const i = selected.findIndex(item => item.recordid === recordid);
+
+    //const i=selected.indexOf(item);
+
+    if(i>-1){
+
+      selected.splice(i,1);
+      selectedRegarding = selectedRegarding.filter(item => item.recordid !== recordid);
+      console.log(selectedRegarding);
+    }
+
+    renderTags();
+    renderOptions(document.getElementById("searchBox").value);
+
+}
+
+function filterOptions(){
+
+    renderOptions(document.getElementById("searchBox").value,event);
+
+}
+
+document.getElementById("selectAll").addEventListener("change",function(){
+
+    if(this.checked){
+
+        selected.length=0;
+
+        items.forEach(x=>selected.push(x));
+
+    }else{
+
+        selected.length=0;
+
+    }
+
+    renderTags();
+    renderOptions(document.getElementById("searchBox").value);
+
+});
+
+
+function updateSelectedText() {
+    const checked = [...document.querySelectorAll("#suggestions input:checked")]
+        .map(cb => cb.value);
+
+    document.getElementById("selectedText").textContent =
+        checked.length
+            ? checked.join(", ")
+            : "Select accounts/contacts";
 }

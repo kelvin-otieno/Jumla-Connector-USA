@@ -12,7 +12,7 @@
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-    <script type="text/javascript" src="taskpane2.js"></script>
+    <script type="text/javascript" src="taskpane2.js" defer></script>
 
     <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
     <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css"/>
@@ -50,7 +50,33 @@
             <span class="ms-Button-label">Create Email In Jumla</span>
         </div> -->
         <!-- <label for="mailtime">Birthday (date and time):</label> -->
-        <input type="text" id="searchBox" name="search" placeholder="Regarding partner or contact.." autocomplete="off" onkeyup="clearSuggestions(this.value)" />
+        <div class="multi-select" id="multiSelect">
+
+            <div class="selected-container" onclick="toggleDropdown(event)">
+                <div id="selectedTags" class="tags"></div>
+        
+                <input type="text" id="searchBox" placeholder="Select or search options" autocomplete="off"
+                    onclick="event.stopPropagation()">
+        
+                <span class="arrow">&#9662;</span>
+            </div>
+        
+            <div class="dropdown" id="dropdown">
+        
+                <label class="option">
+                    <input type="checkbox" id="selectAll">
+                    <span>Select all</span>
+        
+                    <span class="count" id="itemCount"></span>
+                </label>
+        
+                <div id="optionList"></div>
+        
+            </div>
+        
+        </div>
+
+        <!-- <input type="text" id="searchBoxOld" name="search" placeholder="Regarding partner or contact.." autocomplete="off" onkeyup="clearSuggestions(this.value)" /> -->
         <p id="searchText">Searching....</p>
         <div id="suggestions"></div>
         <input type="text" id="searchBoxOpp" name="searchopp" placeholder="Regarding opportunity.." autocomplete="off" onkeyup="clearSuggestionsOpp(this.value)" />
