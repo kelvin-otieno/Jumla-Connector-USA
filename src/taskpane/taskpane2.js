@@ -17,6 +17,7 @@
 
 var regardingItem = null;
 var regardingItemOpp = null;
+var attachments = [];
 
 
 ////////////STAGING/////////////////////////////////
@@ -86,11 +87,11 @@ document.querySelectorAll("#suggestions input[type='checkbox']")
 
 async function getAttachmentsAsync() {
   try {
-    const attachments = Office.context.mailbox.item.attachments;
+    const mailattachments = Office.context.mailbox.item.attachments;
     console.log("Attachments: ");
-    console.log(attachments);
+    console.log(mailattachments);
 
-    attachments.forEach(att => {
+    mailattachments.forEach(att => {
       console.log(att.id, att.name);
       Office.context.mailbox.item.getAttachmentContentAsync(
         att.id,
@@ -100,7 +101,18 @@ async function getAttachmentsAsync() {
             const content = result.value.content;
             const format = result.value.format; // e.g., Base64
             console.log("Attachment content:", content);
-          } else {
+            var attachment = {
+              id: att.id,
+              name: att.name,
+              content: content,
+              contentType: att.contentType,
+              contentId: att.contentId,
+              isInline: att.isInline,
+            };
+            attachments.push(attachment);
+            //console.log("Attachments array: ", attachments);
+            }
+           else {
             console.error("Failed to get attachment content:", result.error.message);
           }
         }
@@ -212,19 +224,31 @@ function loadMissingEmails() {
         if (regardingItemOpp == null) {
           regardingItemOpp = {};
         }
+        
+        const inlineAttachments = attachments.filter(item => item.isInline === true);
+        var description = result.value;
+
+        inlineAttachments.forEach(item => {
+          const contentId = item.contentId;
+          const regex = new RegExp(`cid:${contentId}`, 'g');
+          description = result.value.replace(regex, `data:${item.contentType};base64,${item.content}`);
+        });
+
+        const nonInlineAttachments = attachments.filter(item => item.isInline === false);
         // Successfully retrieved the email body
         const raw = JSON.stringify({
           from: from,
           to: to,
           cc: cc,
           subject: subject,
-          description: result.value,
+          description: description,
           useremailaddress: userEmailAddress,
           trackingid: trackingid,
           //dateTimeCreated: dateTimeCreated.format("YYYY-MM-DDTHH:mm:ss")
           dateTimeCreated: dateTimeCreatedUTC,
           regarding: selectedRegarding,
-          regardingopp: regardingItemOpp
+          regardingopp: regardingItemOpp,
+          attachments: nonInlineAttachments
         });
 
         
