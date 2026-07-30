@@ -231,7 +231,7 @@ function loadMissingEmails() {
         inlineAttachments.forEach(item => {
           const contentId = item.contentId;
           const regex = new RegExp(`cid:${contentId}`, 'g');
-          description = result.value.replace(regex, `data:${item.contentType};base64,${item.content}`);
+          description = description.replace(regex, `data:${item.contentType};base64,${item.content}`);
         });
 
         const nonInlineAttachments = attachments.filter(item => item.isInline === false);
