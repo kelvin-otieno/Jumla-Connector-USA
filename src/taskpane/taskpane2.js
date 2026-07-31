@@ -102,8 +102,8 @@ async function getAttachmentsAsync() {
             const format = result.value.format; // e.g., Base64
             console.log("Attachment content:", content);
             var attachment = {
-              id: att.id,
-              name: att.name,
+              attachmentid: att.id,
+              attachmentname: att.name,
               content: content,
               contentType: att.contentType,
               contentId: att.contentId,
